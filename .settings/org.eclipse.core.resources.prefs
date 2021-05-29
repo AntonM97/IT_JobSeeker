@@ -1,3 +1,5 @@
 eclipse.preferences.version=1
 encoding//src/announce/Announce.java=UTF-8
-encoding//src/announce/GUI_main.java=UTF-8
+encoding//src/announce/Announces_GUI.java=UTF-8
+encoding//src/main/GUI_main.java=UTF-8
+encoding//src/tecnology/TechStatistics_GUI.java=UTF-8
