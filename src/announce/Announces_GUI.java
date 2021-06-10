@@ -8,9 +8,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+
+import cv_generator.CV_generator;
 
 /**
  * This class collects all announcement that already are in DB and shows
@@ -20,7 +24,6 @@ import javax.swing.border.Border;
 
 public class Announces_GUI extends JPanel{
 	public Announces_GUI(){
-		//Piece with announce module
 		
 		AnnouncementEngine annEng = new AnnouncementEngine();
 		
@@ -88,13 +91,15 @@ public class Announces_GUI extends JPanel{
 		searchByPos.addActionListener(annFilterEng);
 		
 		
+		Object[][] announcementsArray = {};
+		String[] annColumnNames = {"Company", "Position", "Date of Publication", "Compatibility %"};
+		JTable annTable = new JTable(announcementsArray, annColumnNames);
+		annTable.setAutoCreateRowSorter(true);		
 		
 		
-		var hereWillBeTable = new JTextArea(8,60);
-		//var srcollAnn = new ScrollPane();
+		var scrollAnn = new JScrollPane(annTable);
 		//add(scrollAnn, BorderLayout.CENTER);
-		tablePane.add("Center",hereWillBeTable);
-		
+		tablePane.add("Center", scrollAnn);
 		
 		
 		Border listSeparator = BorderFactory.createEtchedBorder();
@@ -107,28 +112,10 @@ public class Announces_GUI extends JPanel{
 		list.add("Center",tablePane);
 		
 		
-		
-		
-		
-		
-		
-		
-		
 		//SIDEPANEL's elements "CV GEN"
-		JPanel sidePanel = new JPanel();
-		
-		FlowLayout bl1_2 = new FlowLayout();
-		sidePanel.setLayout(bl1_2);
-		
-		JButton cvGenerator = new JButton ("CV Gen");
-		cvGenerator.addActionListener(annEng);
-		sidePanel.setBorder(listSeparator);
-		sidePanel.add("North",cvGenerator);//TODO put into internal window (resizable)
-		
-		
+		CV_generator sidePanel = new CV_generator();
 		
 		add("Center", list);
 		add("East", sidePanel);
-		
 	}
 }

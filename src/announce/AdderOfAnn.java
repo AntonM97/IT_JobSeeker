@@ -1,22 +1,33 @@
 package announce;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 
-public class AdderOfAnn extends JFrame {
-	private String company_name;
-	private String pos;
-	private String dateOfAdding;
-	private String text;
+public class AdderOfAnn extends JFrame{
+		
+	private static String url = "jdbc:postgresql:postgres";
+	private static String username = "postgres";
+	private static String password = "34698";
+	static Connection conn;
+	static Statement stat;
+	static ResultSet rs;
+	private static int maxId;
 	
  	public AdderOfAnn(){
 		
-		//TODO поставить поле для ввода даты публикации
-		JPanel addPage = new JPanel();//creates panel
+		JPanel addPage = new JPanel();
 		BorderLayout bl5 = new BorderLayout();
 		addPage.setLayout(bl5);
-	
 		JPanel fields = new JPanel();
 		FlowLayout fln = new FlowLayout();
 		fields.setLayout(fln);
@@ -24,12 +35,7 @@ public class AdderOfAnn extends JFrame {
 		
 		JLabel com_name = new JLabel("Company name");
 		fields.add(com_name);
-		
-		//Listener
-		AdderOfAnnEngine addAnnEng = new AdderOfAnnEngine();
-		
 		var insCompName = new JTextField(50);
-		//insCompName.addActionListener(addAnnEng);
 		fields.add(insCompName);
 		
 		
@@ -42,18 +48,17 @@ public class AdderOfAnn extends JFrame {
 				+ "                     ");
 		fields.add(date);
 		
-		
-		
+
 		JComboBox<String> daySelector = new JComboBox<>();
-			daySelector.addItem("1");
-			daySelector.addItem("2");
-			daySelector.addItem("3");
-			daySelector.addItem("4");
-			daySelector.addItem("5");
-			daySelector.addItem("6");
-			daySelector.addItem("7");
-			daySelector.addItem("8");
-			daySelector.addItem("9");
+			daySelector.addItem("01");
+			daySelector.addItem("02");
+			daySelector.addItem("03");
+			daySelector.addItem("04");
+			daySelector.addItem("05");
+			daySelector.addItem("06");
+			daySelector.addItem("07");
+			daySelector.addItem("08");
+			daySelector.addItem("09");
 			daySelector.addItem("10");
 			daySelector.addItem("11");
 			daySelector.addItem("12");
@@ -77,7 +82,6 @@ public class AdderOfAnn extends JFrame {
 			daySelector.addItem("30");
 			daySelector.addItem("31");
 		fields.add(daySelector);
-		//daySelector.addItemListener(addAnnEng);
 		
 		
 		JComboBox<String> monthSelector = new JComboBox<>();
@@ -94,15 +98,13 @@ public class AdderOfAnn extends JFrame {
 			monthSelector.addItem("nov");
 			monthSelector.addItem("dec");
 		fields.add(monthSelector);
-		//monthSelector.addItemListener(addAnnEng);
 		
 		
 		JComboBox<String> yearSelector = new JComboBox<>();
 			yearSelector.addItem("2021");
 			yearSelector.addItem("2022");
 		fields.add(yearSelector);
-		//yearSelector.addItemListener(addAnnEng);
-			
+		
 		
 		JLabel descrField = new JLabel(
 				"                                  "
@@ -111,19 +113,70 @@ public class AdderOfAnn extends JFrame {
 		fields.add(descrField);
 		JTextArea insAnnouncement = new JTextArea(15,60);
 		insAnnouncement.setLineWrap(true);
-		//insAnnouncement.setWrapStyleWord(true);
+		insAnnouncement.setWrapStyleWord(true);
 		var scrollPane = new JScrollPane(insAnnouncement);
 		fields.add(scrollPane);
 		
 		
-		JLabel recquired = new JLabel("    Recquired       ");
-		fields.add(recquired);
-		JTextField recq = new JTextField(50);
-		fields.add(recq);
+		JPanel reqPanel = new JPanel();
+		reqPanel.setLayout(fln);
+		JLabel required = new JLabel("    Recquired       ");
+		reqPanel.add(required);
+		JTextField req = new JTextField(30);
+		//ArrayList techArr = new ArrayList<>();
+		req.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				if (req.getText() == "") {
+					
+				}else if (req.getText() != "") {
+					
+					//TODO Finish
+					class  Tech extends JLabel{
+						Tech() {
+							JLabel lb = new JLabel(req.getText());
+						}
+					}
+					
+					var tItem = new Tech();
+					reqPanel.add(tItem);
+					System.out.println(req.getText());
+					reqPanel.repaint();
+					fields.repaint();
+					
+					req.setText("");
+				}
+				addPage.repaint();
+			}});
+		
+		
+		reqPanel.add(req);
+		//reqPanel.add(techArr);
+		fields.add(reqPanel);
+		
+		
+		JPanel nthPanel = new JPanel();
+		nthPanel.setLayout(fln);
 		JLabel niceToH = new JLabel("   Nice to have    ");
-		fields.add(niceToH);
-		JTextField nToH = new JTextField(50);
-		fields.add(nToH);
+		nthPanel.add(niceToH);
+		JTextField nToH = new JTextField(30);
+		
+		nToH.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				if (nToH.getText() == "") {
+					
+				}else if (nToH.getText() != "") {
+					System.out.println(nToH.getText());
+					nToH.setText("");
+				}
+				
+			}});
+
+		nthPanel.add(nToH);
+		fields.add(nthPanel);
+		
+		//var scrollPane2 = new JScrollPane(fields);
 		
 		
 		
@@ -134,43 +187,114 @@ public class AdderOfAnn extends JFrame {
 
 		JButton Add = new JButton("   Add   ");
 		addButtPane.add(Add);
-		Add.addActionListener(addAnnEng);
+		Add.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				setID();
+				int id = maxId;
+				
+				String company = "'"+insCompName.getText()+"'";
+				
+				String position = insPos.getText();
+				
+				String Date = "'"+yearSelector.getSelectedItem() +"-"
+						+ monthConvertation((String)monthSelector.getSelectedItem())+"-"
+						+ daySelector.getSelectedItem()+"'";
+				
+				String Text = insAnnouncement.getText();
+				
+				System.out.println("OK!" + ""+id+", " + company+", " + position+", " 
+									+ Date+"\n" + Text);
+				/*try {
+					Connection conn= DriverManager.getConnection(url, username, password);
+		 			Statement stat = conn.createStatement();
+		 			//TODO finish the statement
+		 			String command = "INSERT INTO ";
+		 			stat.executeUpdate(command);
+					
+				}catch(SQLException e1) {
+					
+				}finally {
+					
+				}*/
+			}});
 	
+		
+		
 		addPage.add("Center", fields);
 		addPage.add("South",addButtPane);
 		
 		
 		JFrame adder = new JFrame("add announcement");
-		
-		
-		
 		adder.setContentPane(addPage);
-		adder.setSize(700,480);
+		adder.setSize(700,500);
 		adder.setVisible(true);
 		adder.setResizable(false);
-		
-		
-		this.company_name = insCompName.getText();
-		this.pos = insPos.getText();
-		this.dateOfAdding = (String) (daySelector.getSelectedItem()+" "
-				+monthSelector.getSelectedItem()+ " "+yearSelector);
-		this.text = insAnnouncement.getText();
 	
 	}
+ 	
+ 	public String monthConvertation(String m) {
 
- 	public String getCompany_name() {
- 		return company_name;
- 	}
- 	public String getPos() {
- 		return pos;
- 	}
- 	public String getDateOfAdding() {
- 		return dateOfAdding;
- 	}
- 	public String getTextOfAnnouncement() {
- 		return text;
+ 		if(m == "jen" ) {
+ 			m = "01";
+ 		}else if (m=="feb") {
+ 			m = "02";
+ 		}else if (m=="mar") {
+ 			m="03";
+ 		}else if (m=="apr") {
+ 			m="04";
+ 		}else if (m=="may") {
+ 			m="05";
+ 		}else if (m=="jun") {
+ 			m="06";
+ 		}else if (m=="jul") {
+ 			m="07";
+ 		}else if (m=="aug") {
+ 			m="08";
+ 		}else if (m=="sep") {
+ 			m="09";
+ 		}else if (m=="oct") {
+ 			m="10";
+ 		}else if (m=="nov") {
+ 			m="11";
+ 		}else if (m=="dec") {
+ 			m="12";
+ 		}
+		return m;
  	}
  	
- 	
- 	
+ 	public static void setID() {
+ 		try {
+			conn= DriverManager.getConnection(url, username, password);
+			
+			stat = conn.createStatement();
+			String command = "SELECT MAX(id) FROM announcement;";
+			rs = stat.executeQuery(command);
+			while(rs.next()) {
+				
+				int lastId = rs.getInt(1);
+				
+				if(lastId == 0){
+					maxId = -2000000000;
+				}else {
+					maxId=lastId+1;
+				}
+				
+			}
+		}catch(SQLException e) {
+			JOptionPane.showConfirmDialog(null, 
+					"An Error of DataBase connection ", "occured!",
+					JOptionPane.PLAIN_MESSAGE);
+		}finally {
+			try {
+				rs.close();
+				stat.close();
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+ 	}
+
 }

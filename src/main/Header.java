@@ -14,15 +14,15 @@ public class Header extends JPanel{
 		FlowLayout bl = new FlowLayout ();
 		setLayout(bl);//Instantiation of Layout
 		
-		JButton linkLinkedIn = new JButton ("LinkedIn");//TODO set icons instead of words and put small size;
+		JButton linkLinkedIn = new JButton ("LinkedIn");
 		linkLinkedIn.addActionListener(headEng);
 		add("North", linkLinkedIn);
 		
-		JButton checkMail = new JButton("Email");//TODO set icons instead of words and put small size;
+		JButton checkMail = new JButton("Email");
 		checkMail.addActionListener(headEng);
 		add("North", checkMail);
 		
-		JButton settings = new JButton ("Settings"); //TODO set icons instead of words and put small size;
+		JButton settings = new JButton ("Settings"); 
 		settings.addActionListener(headEng);
 		add("North", settings);
 	}

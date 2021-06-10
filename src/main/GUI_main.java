@@ -6,7 +6,7 @@ import javax.swing.border.Border;
 
 import announce.Announces_GUI;
 import company.Companys_GUI;
-import tecnology.TechStatistics_GUI;
+import tecnology.TechStat_GUI;
 
 
 public class GUI_main {
@@ -15,7 +15,7 @@ public class GUI_main {
 						
 		//TECHnology STATistics Module
 		Announces_GUI AnnouncementPane = new Announces_GUI();
-		TechStatistics_GUI TechStatPanel = new TechStatistics_GUI();
+		TechStat_GUI TechStatPanel = new TechStat_GUI();
 		Companys_GUI CompanysPane = new Companys_GUI();
 		Header topPanel = new Header();
 			

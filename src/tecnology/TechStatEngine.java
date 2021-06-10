@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
@@ -12,9 +13,16 @@ public class TechStatEngine implements ActionListener, ItemListener{
 
 	
 	public void actionPerformed(ActionEvent e) {
-		JOptionPane.showConfirmDialog(null, 
-				"Something Happened", "Just a test", 
-				JOptionPane.PLAIN_MESSAGE);
+		
+		JButton addTechButton = (JButton) e.getSource();
+		String addTechButtonLabel = addTechButton.getText();
+		
+		if(addTechButtonLabel == "+add_Tech") {
+			AdderOfTechnology addTechWindow = new AdderOfTechnology();
+			
+		}else if(addTechButtonLabel == "") {
+			
+		}
 		
 	}
 

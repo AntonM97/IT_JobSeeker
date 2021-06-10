@@ -12,10 +12,14 @@ public class HeaderEngine implements ActionListener{
 		JButton supremeButton = (JButton) e.getSource();
 		
 		String supremeButtonLabel = supremeButton.getText();
-		
+		if (supremeButtonLabel == "LinkedIn"|| 
+				supremeButtonLabel =="Email") {
 		JOptionPane.showConfirmDialog(null, 
 				"Something Happened " +supremeButtonLabel, "Just a test", 
 				JOptionPane.PLAIN_MESSAGE);
+		}else if (supremeButtonLabel=="Settings") {
+			SettingsWindow settings = new SettingsWindow();
+		}
 		
 	}
 }
