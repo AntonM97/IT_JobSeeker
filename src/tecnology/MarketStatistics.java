@@ -2,55 +2,28 @@ package tecnology;
 
 public class MarketStatistics {
 	
+ 
+	/*
 	
+	private int CountTotalNum_TechInAnnouncements() {
 	
-	//TODO Sorts by most required
-	private void SortByMostRequired() {
-		
+		return null ;
+	
 	}
 	
-	
-	//TODO Counts number of offers with this technology in general
-	private int CountTechnologyInOffers() {
-		
+	public int getNumOfTech_InAnnouncements() {
+		return ½ountTechInOffers();
 	}
 	
-	
-	//shows counted numbers
-	public int TechnologyInOffers() {
-		return CountTecnologyInOffers();
-	}
-	
-	
-	//TODO Counts number of offers with this technology by position
+
 	private int CountPerPosition() {
+		return 0;
 		
 	}
 	
 	
-	//TODO counts percent of jobs where is MUST HAVE and where NICE TO HAVE
-	private double MustHavePercent() {
+	private int MustHavePercent() {
+		return 0;
 		//returns only 2 numbers after dot for ex.: 23.56%
-	}
-	
-	
-	public static void main(String[] args) {
-		
-		
-		
-				
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	}
+	}*/
 }

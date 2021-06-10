@@ -1,4 +1,4 @@
-package announce;
+package company;
 
 class HR {
 	String HR_fullName;
